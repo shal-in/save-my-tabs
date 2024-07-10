@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Example Extension",
+    "version": "1.0",
+    "description": "This is an example extension",
+    "permissions": [
+        "storage",
+        "tabs"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

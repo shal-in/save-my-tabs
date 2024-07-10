@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    background-color: white;
+    font-size: 16px;
+}
+body{
+    margin-left: auto; margin-right: auto;
+    width: 400px;
+    height: 400px;
+    max-width: 400px;
+    max-height: 400px;
+    border: 1px solid white;
+    background-color: red;
+}
+
+.page{
+    display: none;
+}
+
+.page-active{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Page header */
+.header{
+    display: flex;
+    border-bottom: 2px solid black;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.header-checkbox{
+    margin-right: 0.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.header-title{
+    font-size: 1.5rem;
+}
+
+.header-button{
+    height: 30px;
+    width: 30px;
+    margin-right: 0.5rem;
+    margin-left: auto;
+}
+
+/* Collections */
+.collections-item{
+    display: flex;
+    align-items: center;
+}
+
+.collections-item-text{
+    font-size: 1.25rem;
+    font-weight: normal;
+}
+
+.collections-button-container{
+    margin-left: auto;
+}
+
+.collections-item-open{
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+.collections-item-edit{
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+.collections-item-delete{
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+/* Tabs */
+#tabs-header-back{
+    margin-left: 0;
+}
+
+#tabs-header-title{
+    margin-right: auto;
+}
+
+.tabs-item{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.tabs-item-text{
+    overflow: hidden;
+    max-height: 1.5rem;
+}
+
+
+
+
+
+#example{
+    margin-top: 10px;
+    background-color: white;
+}

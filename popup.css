@@ -24,14 +24,17 @@ body{
 .page-active{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
-/* Page header */
+/* General */   
+    /* Page header */
 .header{
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
     display: flex;
     border-bottom: 2px solid black;
     align-items: center;
-    padding-bottom: 1rem;
 }
 
 .header-checkbox{
@@ -49,6 +52,39 @@ body{
     width: 30px;
     margin-right: 0.5rem;
     margin-left: auto;
+}
+
+    /* List */
+.list{
+    display: flex;
+    flex-direction: column;
+    min-height: 310px; /* Adjust height as needed */
+    overflow-y: auto; /* Enables scrolling if content overflows */
+    background-color: lightgray;
+    box-sizing: border-box;
+    border-bottom: 2px solid #000;
+}
+
+    /* Bottom */
+.bottom{
+    display: flex;
+    align-items: center;
+    background-color: wheat;
+    background-color: lightblue;
+    box-sizing: border-box;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.bottom-button-container{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.bottom-button{
+    height: 30px;
+    width: auto;
 }
 
 /* Collections */
@@ -97,12 +133,18 @@ body{
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border: 1px solid white;
+    height: 1.5rem;
 }
 
 .tabs-item-text{
-    overflow: hidden;
-    max-height: 1.5rem;
+    /* overflow: auto; */
+    max-height: 1.15rem;
+    margin-left: 0.25rem;
+    font-size: 1rem;
+    font-weight: normal;
 }
 
 

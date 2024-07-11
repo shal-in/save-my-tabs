@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Example Extension",
+    "name": "Tabs-olutely",
     "version": "1.0",
     "description": "This is an example extension",
     "permissions": [
@@ -8,6 +8,7 @@
         "tabs"
     ],
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_icon": "kitten.png"
     }
 }

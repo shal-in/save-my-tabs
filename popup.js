@@ -42,6 +42,7 @@ async function retrieveActiveCollections() {
 
 function prepareCollectionsPage() {
     collectionsListEl.innerHTML = "";
+    collectionsDict = {};
 
     // Iterate over activeCollections to create list items
     activeCollections.forEach((collection, index) => {
@@ -49,36 +50,157 @@ function prepareCollectionsPage() {
     });
 }
 
+let collectionsDict = {};
 function createCollectionsListItem(collection, i) {
     let name = collection.name;
     let tabs = collection.tabs;
     let dateCreated = collection.dateCreated;
 
-    const parentDiv = document.createElement("div");
-    parentDiv.classList.add("collections-item");
-    parentDiv.id = `collections-item-${i}`;
+    const collectionsItemDiv = document.createElement("div");
+    collectionsItemDiv.classList.add("collections-item");
+    collectionsItemDiv.id = `collections-item-${i}`;
+    collectionsItemDiv.setAttribute("title", name);
+
+    if (i % 2 === 0) {
+        collectionsItemDiv.style.backgroundColor = "white";
+    } else {
+        collectionsItemDiv.style.backgroundColor = "green";
+    }
 
     const collectionCheckbox = document.createElement("input");
     collectionCheckbox.type = "checkbox";
     collectionCheckbox.classList.add("collections-checkbox");
     collectionCheckbox.id = `collections-checkbox-${i}`;
+    collectionCheckbox.addEventListener("change", () => {
+        collectionsCheckboxFunction();
+    })
 
     const collectionText = document.createElement("h2");
     collectionText.classList.add("collections-item-text");
     collectionText.id = `collections-item-text-${i}`;
     collectionText.textContent = name;
 
-    parentDiv.append(collectionCheckbox);
-    parentDiv.appendChild(collectionText);
+    // Get the button container
+    const collectionButtonContainer = document.createElement("div");
+    collectionButtonContainer.classList.add("collections-button-container")
+    collectionButtonContainer.id = `collections-button-container-${i}`;
 
-    collectionsListEl.appendChild(parentDiv);
+    const openSVGElement = createSVGElement(getCollectionSVGs("open", i));
+    const deleteSVGElement = createSVGElement(getCollectionSVGs("delete", i));
+
+    openSVGElement.addEventListener("click", () => {
+        openTabsBtnFunction(collection);
+    })
+
+    deleteSVGElement.addEventListener("click", () => {
+        deleteCollectionBtnFunction(collection, collectionsItemDiv);
+
+        collectionCheckbox.checked = false;
+        collectionsCheckboxFunction();
+    })
+
+    collectionButtonContainer.appendChild(openSVGElement);
+    collectionButtonContainer.appendChild(deleteSVGElement);
+
+    collectionsItemDiv.append(collectionCheckbox);
+    collectionsItemDiv.appendChild(collectionText);
+    collectionsItemDiv.appendChild(collectionButtonContainer);
+
+    collectionsListEl.appendChild(collectionsItemDiv);
+
+    collectionsDict[name] = {"div": collectionsItemDiv, "collection": collection}
 }
+
 
 // Initial retrieval and preparation
 retrieveActiveCollections();
 
+function openTabsBtnFunction(collection) {
+    const tabs = collection.tabs;
 
+    tabs.forEach(tab => {
+        chrome.tabs.create({ url: tab.url })
+    })
+}
 
+function deleteCollectionBtnFunction(collection, div) {
+    deleteCollection(collection, div);
+}
+
+function deleteCollection(collection, div) {
+        // Remove collection from activeCollections
+        activeCollections = activeCollections.filter(col => col !== collection);
+
+        // Remove div from screen
+        div.remove();
+    
+        // Update storage after removing the collection
+        storeActiveCollections()
+            .then(() => {
+                console.log('Collection deleted and storage updated successfully.');
+            })
+            .catch(error => {
+                console.error('Error updating storage after deleting collection:', error);
+            });
+}
+
+const collectionsCheckboxEl = document.getElementById("collections-header-checkbox");
+collectionsCheckboxEl.addEventListener("change", () => {
+    collectionsHeaderCheckboxFunction();
+})
+
+function collectionsHeaderCheckboxFunction() {
+    const collectionsItems = document.querySelectorAll(".collections-item");
+
+    let isChecked = collectionsCheckboxEl.checked;
+    collectionsItems.forEach(element => {
+        let checkboxEl = element.querySelector(".collections-checkbox");
+        checkboxEl.checked = isChecked
+    })
+
+    getSelectedCollections();
+    updateCollectionsSelectedCount();
+}
+
+function collectionsCheckboxFunction() {
+    getSelectedCollections();
+    updateCollectionsSelectedCount();
+}
+
+let selectedCollections;
+function getSelectedCollections() {
+    selectedCollections = []
+
+    const collectionsItems = document.querySelectorAll(".collections-item");
+    collectionsItems.forEach(element => {
+        let checkboxEl = element.querySelector(".collections-checkbox");
+
+        if (checkboxEl.checked) {
+            let title = element.getAttribute("title");
+
+            selectedCollections.push(title);
+        }
+    })
+}
+
+function updateCollectionsSelectedCount() {
+    const collectionsSelectedEl = document.getElementById("collections-selected-count");
+
+    collectionsSelectedEl.textContent = selectedCollections.length;
+}
+
+const collectionsDeleteAllBtnEl = document.getElementById("collections-delete-button");
+collectionsDeleteAllBtnEl.addEventListener("click", () => {
+    selectedCollections.forEach(title => {
+        let div = collectionsDict[title].div;
+        let collection = collectionsDict[title].collection;
+
+        deleteCollection(collection, div);
+    })
+
+    collectionsCheckboxEl.checked = false;
+    updateTabsSelectCount();
+})
 
 // Tabs
 const tabsBackBtnEl = document.getElementById("tabs-header-back");
@@ -138,7 +260,7 @@ async function prepareTabsPage() {
     tabsCheckboxEl.checked = false;
     tabsHeaderCheckboxFunction();
 
-    newCollectionNameInputEl.value = "New collection";
+    newCollectionNameInputEl.value = getCollectionName();
 
     tabsListEl.innerHTML = "";
     const openTabs = await getOpenTabs();
@@ -167,6 +289,12 @@ function createTabsListItem(title, url, i) {
     tabsItemDiv.id = `tabs-item-${i}`;
     tabsItemDiv.setAttribute("title", title);
     tabsItemDiv.setAttribute("url", url);
+
+    if (i % 2 === 0) {
+        tabsItemDiv.style.backgroundColor = "white";
+    } else {
+        tabsItemDiv.style.backgroundColor = "green";
+    }
 
     const tabsCheckbox = document.createElement("input");
     tabsCheckbox.type = "checkbox";
@@ -241,7 +369,28 @@ function checkCollectionNameTaken(name) {
     return nameTaken;
 }
 
+function createSVGElement(svgString) {
+    const parser = new DOMParser();
+    const svgDocument = parser.parseFromString(svgString, "image/svg+xml");
+    return svgDocument.documentElement;
+}
 
+function getCollectionSVGs(icon, i) {
+    let text = `class="collections-item-${icon}" id="collections-item-${icon}-${i}"`;
+
+    if (icon === "open") {
+        return `<svg ${text} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M22 14v8h-12v-8h12zm2-6h-16v16h16v-16zm-2-2h-16v16h1v-15h15v-1zm-2-2h-16v16h1v-15h15v-1zm-2-2h-16v16h1v-15h15v-1z"/></svg>`;
+    }
+    
+    if (icon === "delete") {
+        return `<svg ${text} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 
+            .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 
+            0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z" 
+            fill-rule="nonzero"/></svg>`;
+    }
+}
 
 
 function storeActiveCollections() {

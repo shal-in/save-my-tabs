@@ -4,17 +4,15 @@
 }
 
 html{
-    background-color: white;
+    background-color: lightgray;
     font-size: 16px;
 }
 body{
     margin-left: auto; margin-right: auto;
     width: 400px;
-    height: 400px;
-    max-width: 400px;
-    max-height: 400px;
-    border: 1px solid white;
-    background-color: red;
+    height: 350px;
+    background-color: lightgray;
+    font-family: "Arial";
 }
 
 .page{
@@ -30,28 +28,65 @@ body{
 /* General */   
     /* Page header */
 .header{
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     display: flex;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #000;
     align-items: center;
 }
 
-.header-checkbox{
-    margin-right: 0.5rem;
-    height: 1.5rem;
-    width: 1.5rem;
+.header-checkbox {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 20px; /* Adjust to desired size */
+    width: 20px; /* Adjust to desired size */
+    border: 1px solid #000;
+    border-radius: 2px; /* Optional: Adds rounded corners */
+    background-color: lightgray;
+    cursor: pointer;
+    position: relative; /* Required for the checkmark positioning */
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.header-checkbox:checked {
+    background-color: lightgray; /* Change to your desired color */
+    border-color: black; /* Change to your desired color */
+}
+
+.header-checkbox:checked::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    width: 6px;
+    height: 12px;
+    border: solid orange;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .header-title{
-    font-size: 1.5rem;
+    font-size:1.75rem;
+    font-weight: normal;
 }
 
 .header-button{
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     margin-right: 0.5rem;
     margin-left: auto;
+    stroke: black;
+}
+
+.header-button:hover{
+    cursor: pointer;
+    fill: orange;
+    stroke: orange;
 }
 
     /* List */
@@ -69,11 +104,16 @@ body{
 .bottom{
     display: flex;
     align-items: center;
-    background-color: wheat;
-    background-color: lightblue;
+    background-color: lightgray;
     box-sizing: border-box;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.selected{
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    font-weight: normal;
 }
 
 .bottom-button-container{
@@ -83,14 +123,59 @@ body{
 }
 
 .bottom-button{
-    height: 30px;
+    height: 2.5rem;
     width: auto;
+    margin-right: 0.5rem;
+}
+
+.bottom-button:hover{
+    cursor: pointer;
+    fill: orange;
 }
 
 /* Collections */
 .collections-item{
     display: flex;
     align-items: center;
+    height: 2rem;
+    border-bottom: 2px solid #bababa;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+}
+
+.collections-checkbox{
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 15px; /* Adjust to desired size */
+    width: 15px; /* Adjust to desired size */
+    border: 0.5px solid #000;
+    border-radius: 1px; /* Optional: Adds rounded corners */
+    background-color: lightgray;
+    cursor: pointer;
+    position: relative; /* Required for the checkmark positioning */
+    margin-left: 1.15rem;
+    margin-right: 1.15rem;
+}
+
+.collections-checkbox:checked {
+    background-color: lightgray; /* Change to your desired color */
+    border-color: black; /* Change to your desired color */
+}
+
+.collections-checkbox:checked::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 4px;
+    width: 4px;
+    height: 9px;
+    border: solid orange;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .collections-item-text{
@@ -107,19 +192,23 @@ body{
 .collections-item-open{
     width: 1.5rem;
     height: auto;
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
 }
 
-.collections-item-edit{
-    width: 1.5rem;
-    height: auto;
-    margin-right: 0.5rem;
+.collections-item-open:hover{
+    cursor: pointer;
+    fill: orange;
 }
 
 .collections-item-delete{
     width: 1.5rem;
     height: auto;
     margin-right: 0.5rem;
+}
+
+.collections-item-delete:hover{
+    cursor: pointer;
+    fill: orange;
 }
 
 /* Tabs */

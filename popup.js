@@ -28,7 +28,7 @@ function getActiveCollections() {
 async function retrieveActiveCollections() {
     try {
         storedActiveCollections = await getActiveCollections();
-        console.log('Retrieved active Collections:', storedActiveCollections);
+        console.log("Retrieved active Collections:", storedActiveCollections);
 
         // Update activeCollections with retrieved data
         activeCollections = storedActiveCollections;
@@ -36,7 +36,7 @@ async function retrieveActiveCollections() {
         // Call prepareCollectionsPage after data is retrieved
         prepareCollectionsPage();
     } catch (error) {
-        console.error('Error retrieving active Collections:', error);
+        console.error("Error retrieving active Collections:", error);
     }
 }
 
@@ -61,18 +61,16 @@ function createCollectionsListItem(collection, i) {
     collectionsItemDiv.id = `collections-item-${i}`;
     collectionsItemDiv.setAttribute("title", name);
 
-    if (i % 2 === 0) {
-        collectionsItemDiv.style.backgroundColor = "white";
-    } else {
-        collectionsItemDiv.style.backgroundColor = "green";
-    }
-
     const collectionCheckbox = document.createElement("input");
     collectionCheckbox.type = "checkbox";
     collectionCheckbox.classList.add("collections-checkbox");
     collectionCheckbox.id = `collections-checkbox-${i}`;
     collectionCheckbox.addEventListener("change", () => {
         collectionsCheckboxFunction();
+
+        if (!collectionCheckbox.checked) {
+            collectionsCheckboxEl.checked = false;
+        }
     })
 
     const collectionText = document.createElement("h2");
@@ -137,10 +135,10 @@ function deleteCollection(collection, div) {
         // Update storage after removing the collection
         storeActiveCollections()
             .then(() => {
-                console.log('Collection deleted and storage updated successfully.');
+                console.log("Collection deleted and storage updated successfully.");
             })
             .catch(error => {
-                console.error('Error updating storage after deleting collection:', error);
+                console.error("Error updating storage after deleting collection:", error);
             });
 }
 
@@ -179,6 +177,10 @@ function getSelectedCollections() {
             let title = element.getAttribute("title");
 
             selectedCollections.push(title);
+
+            element.style.backgroundColor = "#bababa"
+        } else {
+            element.style.backgroundColor = "lightgray"
         }
     })
 }
@@ -199,7 +201,9 @@ collectionsDeleteAllBtnEl.addEventListener("click", () => {
     })
 
     collectionsCheckboxEl.checked = false;
-    updateTabsSelectCount();
+    
+    getSelectedCollections();
+    updateCollectionsSelectedCount();
 })
 
 // Tabs
@@ -289,12 +293,6 @@ function createTabsListItem(title, url, i) {
     tabsItemDiv.id = `tabs-item-${i}`;
     tabsItemDiv.setAttribute("title", title);
     tabsItemDiv.setAttribute("url", url);
-
-    if (i % 2 === 0) {
-        tabsItemDiv.style.backgroundColor = "white";
-    } else {
-        tabsItemDiv.style.backgroundColor = "green";
-    }
 
     const tabsCheckbox = document.createElement("input");
     tabsCheckbox.type = "checkbox";
@@ -417,9 +415,10 @@ function displayPage(displayEl, hideEl) {
 function getTodaysDate() {
     const today = new Date();
 
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const year = String(today.getFullYear()).slice(-2); // Get the last two digits of the year
 
     return `${day}/${month}/${year}`;
 }
+

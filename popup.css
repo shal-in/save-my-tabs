@@ -15,6 +15,10 @@ body{
     font-family: "Arial";
 }
 
+::selection{
+    background-color: orange;
+}
+
 .page{
     display: none;
 }
@@ -23,6 +27,35 @@ body{
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+
+/* Title */
+#title-container{
+    display: flex;
+    align-items: center;
+    background-color: rgb(124, 124, 124);
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+}
+
+#title{
+    font-family: "Itim", cursive;
+    color: orange;
+    font-size: 2rem;
+    margin-left: 0.5rem;
+}
+
+#title-icon{
+    height: 2rem;
+    width: auto;
+    fill: black;
+    margin-left: 0.75rem;
+}
+
+#title-icon:hover{
+    fill: orange;
+    cursor: pointer;
 }
 
 /* General */   

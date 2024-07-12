@@ -1,3 +1,9 @@
+// Title
+let titleIconEl = document.getElementById("title-icon");
+if (titleIconEl) {
+    
+}
+
 let activeCollections = []; // Initialize activeCollections
 
 // Collections

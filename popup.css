@@ -126,11 +126,13 @@ body{
     height: 2.5rem;
     width: auto;
     margin-right: 0.5rem;
+    stroke: black;
 }
 
 .bottom-button:hover{
     cursor: pointer;
     fill: orange;
+    stroke: orange;
 }
 
 /* Collections */
@@ -213,6 +215,11 @@ body{
 
 /* Tabs */
 #tabs-header-back{
+    margin-left: 0.5rem;
+    margin-right: 0.75rem;
+}
+
+#tabs-header-checkbox{
     margin-left: 0;
 }
 
@@ -226,8 +233,43 @@ body{
     overflow: hidden;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
-    border: 1px solid white;
-    height: 1.5rem;
+    border: 1px solid #bababa;
+    height: 2rem;
+}
+
+.tabs-checkbox{
+    transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width: 12px; /* Adjust to desired size */
+    height: 12px; /* Adjust to desired size */
+    border: 0.5px solid #000;
+    border-radius: 1px; /* Optional: Adds rounded corners */
+    background-color: lightgray;
+    cursor: pointer;
+    position: relative; /* Required for the checkmark positioning */
+    margin-left: 1.15rem;
+    margin-right: 0.5rem;
+}
+
+.tabs-checkbox:checked {
+    background-color: lightgray; /* Change to your desired color */
+    border-color: black; /* Change to your desired color */
+}
+
+.tabs-checkbox:checked::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    width: 3px;
+    height: 8px;
+    border: solid orange;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .tabs-item-text{
@@ -238,7 +280,15 @@ body{
     font-weight: normal;
 }
 
-
+#tabs-name-input{
+    background-color: rgb(198, 198, 198);
+    height: 2.5rem;
+    width: 10.5rem;
+    outline: none;
+    padding-left: 6px;
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+}
 
 
 

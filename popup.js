@@ -189,6 +189,10 @@ function updateCollectionsSelectedCount() {
     const collectionsSelectedEl = document.getElementById("collections-selected-count");
 
     collectionsSelectedEl.textContent = selectedCollections.length;
+
+    if (selectedCollections.length === 0) {
+        addBtn
+    }
 }
 
 const collectionsDeleteAllBtnEl = document.getElementById("collections-delete-button");
@@ -201,7 +205,7 @@ collectionsDeleteAllBtnEl.addEventListener("click", () => {
     })
 
     collectionsCheckboxEl.checked = false;
-    
+
     getSelectedCollections();
     updateCollectionsSelectedCount();
 })
@@ -250,6 +254,10 @@ function getSelectedTabs() {
             }
 
             selectedTabs.push(tabData);
+            
+            element.style.backgroundColor = "#bababa"
+        } else {
+            element.style.backgroundColor = "lightgray"
         }
     })
 }
@@ -300,6 +308,8 @@ function createTabsListItem(title, url, i) {
     tabsCheckbox.id = `tabs-checkbox-${i}`;
     tabsCheckbox.addEventListener("change", () => {
         tabsCheckboxFunction();
+
+
     })
 
     const tabsText = document.createElement("h2");
@@ -318,6 +328,12 @@ newCollectionNameInputEl.value = getCollectionName();
 
 const createNewCollectionBtnEl = document.getElementById("tabs-add-button");
 createNewCollectionBtnEl.addEventListener("click", async () => {
+    getSelectedTabs();
+
+    if (selectedTabs.length === 0) {
+        return;
+    }
+
     let name = newCollectionNameInputEl.value.trim();
     let collectionData = {
         "name": getCollectionName(name),

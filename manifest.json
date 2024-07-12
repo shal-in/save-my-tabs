@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Tabs-olutely",
+    "author": "Shalin Ahasan",
     "version": "1.0",
     "description": "Effortlessly manage and save your browsing sessions with Tabsolutely.",
     "permissions": [
@@ -12,6 +13,7 @@
           "128": "icons/128.png" },
     "action": {
         "default_popup": "popup.html",
+        "default_title": "Tabs-olutely",
         "default_icon": "icons/16-1.png"
     }
 }

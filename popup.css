@@ -47,6 +47,7 @@ body{
 }
 
 #title-icon{
+    display: none;
     height: 2rem;
     width: auto;
     fill: black;
